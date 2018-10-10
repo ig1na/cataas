@@ -1,15 +1,20 @@
-import * as dataServ from "./data-service.js"
+import * as dataServ from "./data-service.js";
 
 (() => {
-
 	let headTitle = "Cat cards list";
+	let cards = [{ id: 1, title: 'title' }];
+
+	dataServ.getAllCards().then(function(allCards) {
+		vm.cards = allCards;
+	});
+	console.log(cards);
 
 	Vue.component('card-show', {
 		props: ['card'],
 		template: `
 		<div class="flipper mb-3" ontouchstart="this.classList.toggle('hover');">
 			<div class="front card text-center shadow-sm">
-				<img class="card-img-top" v-bind:src="card.url" alt="Cat image" width="250" height="200" />
+				<img class="card-img-top" v-bind:src="card.imageUrl" alt="Cat image" width="250" height="200" />
 				<div class="card-body">
 					<h5 class="card-title">{{card.title}}</h5>
 				</div>
@@ -28,9 +33,9 @@ import * as dataServ from "./data-service.js"
 	})
 
 	Vue.component('card-list', {
+		props: ['cards'],
 		data: function() {
 			return {
-				cards,
 				headTitle
 			}
 		},
@@ -73,7 +78,7 @@ import * as dataServ from "./data-service.js"
 				<div class="form-group row">
 					<label for="cardImage" class="col-sm-2 col-form-label">Card image URL</label>
 					<input type="url" required class="form-control col-sm-10" id="cardImage" placeholder="Card image URL">
-					<div class="invalid-feedback offset-md-2 col-sm-10">
+					<div class="icurrentCompnvalid-feedback offset-md-2 col-sm-10">
 					That field is required and attempt an URL as value. Please provide a value that respect URL format.
 					</div>
 				</div>
@@ -87,18 +92,15 @@ import * as dataServ from "./data-service.js"
 			</section>
 		`
 	})
-
+	console.log(cards);
 	let vm = new Vue({
 		el: '#cat-app',
 		data: {
-			cards: dataServ.getAllCards(),
+			cards,
 			headTitle,
 			year: new Date().getFullYear(),
 			comp: 'list',
 			counter: 0,
-
-		},
-		methods: {
 
 		},
 		computed: {
