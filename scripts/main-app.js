@@ -1,9 +1,6 @@
-(() => {
+import * as dataServ from "./data-service.js"
 
-	let cards = [
-		{id: 1, title: "First cat", text: "The card of a random cat", url: "https://cataas.com/cat?width=200&height=200&time=1" },
-		{id: 2, title: "Second cat", text: "The card of a random cat", url: "https://cataas.com/cat?width=200&height=200&time=2" }
-	];
+(() => {
 
 	let headTitle = "Cat cards list";
 
@@ -42,7 +39,7 @@
 				<h2>Cat card list</h2>
 				<hr />
 				<div class="card-group">
-					<card-show 
+					<card-show
 					v-for="card in cards"
 					v-bind:key="card.id"
 					v-bind:card="card">
@@ -54,11 +51,18 @@
 	})
 
 	Vue.component('card-create', {
+		methods: {
+			onSubmit(event) {
+				if(event.target.checkValidity()) {
+					dataServ.createCard();
+				}
+			}
+		},
 		template: `
 			<section class="container">
 				<h2>Cat card form</h2>
 				<hr />
-				<form novalidate class="was-validated">
+				<form novalidate class="was-validated" v-on:submit.prevent="onSubmit($event)">
 				<div class="form-group row">
 					<label for="cardTitle" class="col-sm-2 col-form-label">Card title</label>
 					<input type="text" required class="form-control col-sm-10" id="cardTitle" placeholder="Card title">
@@ -86,17 +90,22 @@
 
 	let vm = new Vue({
 		el: '#cat-app',
-		data: { 
-			cards,
+		data: {
+			cards: dataServ.getAllCards(),
 			headTitle,
 			year: new Date().getFullYear(),
 			comp: 'list',
-			counter: 0
+			counter: 0,
+
+		},
+		methods: {
+
 		},
 		computed: {
 			currentComp: function() {
 				return 'card-' + this.comp;
 			}
+
 		}
 	})
 })();
