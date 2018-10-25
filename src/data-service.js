@@ -53,7 +53,7 @@ export function getCard(cardId) {
 }
 
 export function createCard(card) {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
       const cards = JSON.parse(sessionStorage.getItem('cards'));
       if(cards && cards.length) {
