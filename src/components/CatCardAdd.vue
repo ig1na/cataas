@@ -22,11 +22,11 @@ export default {
   data: function() {
     return {
       addCardFields: [
-        { id: "cardTitle" },
-        { title: "Card title" },
-        { type: "text" },
-        { required: true },
-        { placeholder: "Card title" }
+        { id: "cardTitle", title: "Card title", type: "text", required: true, placeholder: "Card title" },
+        { id: "cardImage", title: "Card image URL", type: "url", required: true, placeholder: "Card image URL" },
+        { id: "cardDescription", title: "Card description", type: "text", },
+        {  },
+        {  }
       ]
     }
   }
